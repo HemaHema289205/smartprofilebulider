@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Generator | SmartProfileBuilder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="builder.css">
+    <link rel="stylesheet" href="portfolio-builder.css">
+</head>
+
+<body class="builder-body">
+
+    <nav id="navbar" class="builder-nav">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <button class="btn btn-outline btn-sm" id="nav-back-btn"
+                    style="display: none; padding: 0.6rem 1.2rem; border-radius: 8px;" onclick="builderBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="logo">
+                    <a href="index.html">Smart<span>Profile</span>Builder<span>.</span></a>
+                </div>
+            </div>
+            <div class="builder-title" style="flex: 1; text-align: center;">
+                <h1 style="margin: 0; font-size: 1.1rem; letter-spacing: 1px;">PORTFOLIO GENERATOR</h1>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-primary" id="final-preview-btn" style="display: none;"
+                    onclick="openLivePreview()"><i class="fas fa-eye"></i> Live Preview</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="builder-container">
+        <div class="container">
+
+            <!-- Step 1: Initial Upload (Only thing visible at start) -->
+            <div id="initial-upload-step" class="upload-start-area">
+                <div class="upload-card shadow-card" data-aos="zoom-in">
+                    <div class="upload-icon"><i class="fas fa-file-upload"></i></div>
+                    <h2>Generate Your Portfolio Instantly</h2>
+                    <p>Upload your resume and our AI will extract your details to build a stunning personal website in
+                        seconds.</p>
+                    <button class="btn btn-primary btn-lg"
+                        onclick="document.getElementById('main-resume-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Resume
+                    </button>
+                    <input type="file" id="main-resume-upload" hidden onchange="handleMainUpload(this)">
+                </div>
+            </div>
+
+            <!-- Dashboard (Visible after upload) -->
+            <div id="builder-dashboard" style="display: none;">
+
+
+                <!-- Page 1: Content Setup -->
+                <div id="step-1-content" class="step-content-area active">
+                    <div class="builder-layout">
+                        <aside class="sidebar">
+                            <div class="section-nav">
+                                <a href="#about-sec" class="active"><i class="fas fa-user-circle"></i> About Me</a>
+                                <a href="#skills-sec"><i class="fas fa-code"></i> Skills</a>
+                                <a href="#edu-sec"><i class="fas fa-graduation-cap"></i> Education</a>
+                                <a href="#cert-sec"><i class="fas fa-certificate"></i> Certifications</a>
+                                <a href="#projects-sec"><i class="fas fa-laptop-code"></i> Projects</a>
+                                <a href="#links-sec"><i class="fas fa-share-alt"></i> Social Links</a>
+                            </div>
+                        </aside>
+
+                        <div class="editor-area">
+                            <!-- Image Upload Section -->
+                            <div class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Profile Photo</h2>
+                                </div>
+                                <div class="profile-upload-flex">
+                                    <div class="photo-preview" id="photo-preview-box">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="upload-controls">
+                                        <p>Add a professional photo to stand out.</p>
+                                        <button class="btn btn-outline btn-sm"
+                                            onclick="document.getElementById('profile-img-input').click()">Upload
+                                            Photo</button>
+                                        <input type="file" id="profile-img-input" hidden onchange="previewImage(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Extracted Content -->
+                            <div id="about-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>About Me</h2>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Brief Introduction</label>
+                                    <input type="text" id="p-intro" placeholder="Professional Title/Tagline">
+                                </div>
+                                <div class="form-group full-width" style="margin-top: 1rem;">
+                                    <label>Detailed Bio</label>
+                                    <textarea id="p-bio" placeholder="Write about your journey..."></textarea>
+                                </div>
+                            </div>
+
+                            <div id="skills-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Technical Skills</h2>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Skills Badges (Comma separated)</label>
+                                    <input type="text" id="p-skills" placeholder="JavaScript, React, Python...">
+                                </div>
+                            </div>
+
+                            <div id="edu-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Education</h2>
+                                    <button class="btn-add" onclick="addEdu()">+ Add</button>
+                                </div>
+                                <div id="p-edu-container" class="items-container">
+                                    <!-- Education items will be injected -->
+                                </div>
+                            </div>
+
+                            <div id="cert-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Certifications & Workshops</h2>
+                                    <button class="btn-add" onclick="addCert()">+ Add</button>
+                                </div>
+                                <div id="p-cert-container" class="items-container">
+                                    <!-- Certification items will be injected -->
+                                </div>
+                            </div>
+
+                            <div id="projects-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Featured Projects</h2>
+                                    <button class="btn-add" onclick="addProject()">+ Add</button>
+                                </div>
+                                <div id="p-projects-container" class="items-container">
+                                    <!-- Project items will be injected -->
+                                </div>
+                            </div>
+
+                            <div id="links-sec" class="form-section shadow-card">
+                                <div class="section-header-builder">
+                                    <h2>Contact & Social</h2>
+                                </div>
+                                <div class="grid-form">
+                                    <div class="form-group">
+                                        <label>GitHub</label>
+                                        <input type="url" id="p-github" placeholder="https://github.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>LinkedIn</label>
+                                        <input type="url" id="p-linkedin" placeholder="https://linkedin.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" id="p-email" placeholder="email@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="tel" id="p-phone" placeholder="Phone number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="nav-btns" style="text-align: center; margin-top: 4rem;">
+                                <p style="color: #64748b; margin-bottom: 2rem; font-weight: 500;">Review your details
+                                    above, then proceed to the next step.</p>
+                                <button class="btn btn-primary btn-lg" onclick="goToStep(2)"
+                                    style="padding: 1.2rem 4rem; border-radius: 50px; background: linear-gradient(135deg, #6366f1, #a855f7); border: none; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4); font-size: 1.2rem; font-weight: 700;">Continue
+                                    to Design Selection <i class="fas fa-arrow-right"
+                                        style="margin-left: 10px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 2: Design & Theme -->
+                <div id="step-2-content" class="step-content-area">
+                    <div class="selection-header-design">
+                        <h2 style="color: #6366f1; font-weight: 700;">Choose My Portfolio Design</h2>
+                        <p style="color: #64748b; margin-top: 0.5rem;">Choose a color palette that matches your personal
+                            brand.</p>
+                    </div>
+
+                    <div id="themes-grid" class="design-grid active" style="margin-top: 2rem;">
+                        <div class="theme-card selected" style="--theme-col: linear-gradient(135deg, #6366f1, #a855f7)"
+                            data-theme="indigo-purple"><span>Indigo Bloom</span></div>
+                        <div class="theme-card" style="--theme-col: linear-gradient(135deg, #06b6d4, #10b981)"
+                            data-theme="ocean-teal"><span>Ocean Teal</span></div>
+                        <div class="theme-card" style="--theme-col: linear-gradient(135deg, #f43f5e, #fb923c)"
+                            data-theme="sunset-rose"><span>Sunset Rose</span></div>
+                        <!-- ... other 7 themes ... -->
+                    </div>
+
+                    <div class="nav-btns" style="text-align: right; margin-top: 3rem;">
+                        <button class="btn btn-primary btn-lg" onclick="goToStep(3)"
+                            style="padding: 1rem 3rem; background: #10b981; border: none; border-radius: 50px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">Finish
+                            & Launch <i class="fas fa-rocket"></i></button>
+                    </div>
+                </div>
+
+                <!-- Page 3: Launch -->
+                <div id="step-3-content" class="step-content-area launch-area">
+                    <div class="success-box">
+                        <div class="rocket-icon"><i class="fas fa-check-circle"></i></div>
+                        <h2 style="color: #1a202c; font-weight: 800; font-size: 2.2rem; margin-bottom: 0.5rem;">Your
+                            Portfolio is Ready!</h2>
+                        <p style="color: #64748b; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6;">Your
+                            website has been generated. To get a permanent live link, download the file below and upload
+                            it to a service like <b>Netlify</b> or <b>GitHub Pages</b>.</p>
+
+                        <div class="launch-actions" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <button class="btn btn-primary btn-lg" onclick="downloadPortfolioHTML()"
+                                style="padding: 1.5rem 3rem; border-radius: 50px; width: 100%; font-size: 1.2rem; background: linear-gradient(135deg, #6366f1, #a855f7); border: none; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);">
+                                <i class="fas fa-download"></i> Download & Save My Website
+                            </button>
+                            <button class="btn btn-outline btn-lg" onclick="copyPortfolioLink()"
+                                style="border-radius: 50px; width: 100%; padding: 1rem; border-color: #6366f1; color: #6366f1;">
+                                <i class="fas fa-copy"></i> Copy Link (Simulated)
+                            </button>
+                            <button class="btn btn-outline btn-lg" onclick="openLivePreview()"
+                                style="border-radius: 50px; width: 100%; padding: 1rem;">
+                                <i class="fas fa-eye"></i> Preview Before Saving
+                            </button>
+                        </div>
+
+                        <div
+                            style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #f1f5f9; text-align: left;">
+                            <h4 style="color: #1a202c; margin-bottom: 1rem;"><i class="fas fa-rocket"
+                                    style="color: #6366f1;"></i> How to get a Live Link:</h4>
+                            <ol style="color: #64748b; padding-left: 1.5rem; font-size: 0.95rem; line-height: 1.8;">
+                                <li>Click the <b>Download</b> button above.</li>
+                                <li>Go to <a href="https://app.netlify.com/drop" target="_blank"
+                                        style="color: #6366f1; font-weight: 600; text-decoration: underline;">Netlify
+                                        Drop</a>.</li>
+                                <li>Drag and drop your downloaded file there.</li>
+                                <li>You'll get a real link you can share with anyone!</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Full Screen Live Preview Modal -->
+    <div id="live-portfolio-modal" class="portfolio-modal">
+        <div class="modal-nav">
+            <button class="btn-close-modal" onclick="closeLivePreview()"><i class="fas fa-arrow-left"></i> Back to
+                Builder</button>
+            <div class="theme-quick-switch">
+                <span style="color: white; font-size: 0.9rem; margin-right: 10px;">Quick Theme:</span>
+                <div class="t-dot t-1" onclick="changeTheme('#6366f1', '#a855f7')"></div>
+                <div class="t-dot t-2" onclick="changeTheme('#06b6d4', '#10b981')"></div>
+                <div class="t-dot t-3" onclick="changeTheme('#f43f5e', '#fb923c')"></div>
+            </div>
+        </div>
+        <iframe id="portfolio-frame" class="portfolio-frame"></iframe>
+    </div>
+
+    <script src="portfolio-builder.js"></script>
+</body>
+
+</html>

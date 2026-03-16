@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartProfileBuilder | Build Your Dream Career</title>
+    <meta name="description"
+        content="Land your dream job with AI-powered resumes. Create, edit, and download professional resumes in minutes.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <span class="badge">New</span>
+        <p>AI Feature Added: Smart Resume Tailoring</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="#">Smart<span>Profile</span>Builder<span>.</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Resume</a></li>
+                <li><a href="analyser.html">Analyser</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+            <div class="nav-cta">
+                <button onclick="showLogin()" class="btn btn-outline">Login</button>
+                <a href="choose.html" class="btn btn-primary">Get started</a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <div class="trust-badge">
+                    <div class="user-avatars">
+                        <img src="https://i.pravatar.cc/40?u=1" alt="User">
+                        <img src="https://i.pravatar.cc/40?u=2" alt="User">
+                        <img src="https://i.pravatar.cc/40?u=3" alt="User">
+                        <img src="https://i.pravatar.cc/40?u=4" alt="User">
+                        <img src="https://i.pravatar.cc/40?u=5" alt="User">
+                    </div>
+                    <div class="trust-text">
+                        <div class="stars">★★★★★</div>
+                        <p>Used by 10,000+ users</p>
+                    </div>
+                </div>
+                <h1>Land your dream job with AI-powered <span class="highlight">resumes</span> & <span
+                        class="highlight">portfolios</span>.</h1>
+                <p class="subtitle">Create, edit and download professional resumes with AI-powered assistance.</p>
+                <div class="hero-btns">
+                    <a href="choose.html" class="btn btn-primary btn-lg">Get started <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+        <div class="hero-gradient"></div>
+    </section>
+
+    <!-- Simple Process Section -->
+    <section id="features" class="process">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="badge-pill"><i class="fas fa-bolt"></i> Simple Process</span>
+                <h2>Build your resume</h2>
+                <p>Our streamlined process helps you create a professional resume and a stunning portfolio in minutes
+                    with intelligent AI-powered tools.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-images" data-aos="fade-right">
+                    <div class="image-stack">
+                        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Resume Builder" class="img-main">
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            alt="Person working" class="img-sub">
+                    </div>
+                </div>
+                <div class="process-steps" data-aos="fade-left">
+                    <div class="step-card active">
+                        <div class="step-icon"><i class="fas fa-key"></i></div>
+                        <div class="step-content">
+                            <h3>Real-Time Analytics</h3>
+                            <p>Get instant insights into your career progress with live dashboards and ATS scoring.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon green"><i class="fas fa-shield-alt"></i></div>
+                        <div class="step-content">
+                            <h3>Bank-Grade Security</h3>
+                            <p>End-to-end encryption, 2FA, compliance with GDPR standards for your sensitive data.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon orange"><i class="fas fa-file-export"></i></div>
+                        <div class="step-content">
+                            <h3>Customizable Reports</h3>
+                            <p>Export professional, audit-ready resumes in PDF, Word, or interactive web formats.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="process portfolio-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="badge-pill"><i class="fas fa-globe"></i> Portfolio Builder</span>
+                <h2>Create your portfolio</h2>
+                <p>Turn your resume into a beautiful personal website instantly. No coding required.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-images" data-aos="fade-right">
+                    <div class="image-stack">
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80"
+                            alt="Portfolio Layout" class="img-main">
+                        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=600&q=80"
+                            alt="Mobile Portfolio" class="img-sub">
+                    </div>
+                </div>
+                <div class="process-steps" data-aos="fade-left">
+                    <div class="step-card active">
+                        <div class="step-icon purple"><i class="fas fa-magic"></i></div>
+                        <div class="step-content">
+                            <h3>One-Click Conversion</h3>
+                            <p>Automatically generate a portfolio website directly from your resume data.</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon blue"><i class="fas fa-paint-brush"></i></div>
+                        <div class="step-content">
+                            <h3>Premium Themes</h3>
+                            <p>Choose from dozens of designer-made templates optimized for every industry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="badge-pill">Testimonials</span>
+                <h2>Don't just take our words</h2>
+                <p>Hear what our users say about us. We're always looking for ways to improve. If you have a positive
+                    experience with us, leave a review.</p>
+            </div>
+            <div class="testimonial-grid">
+                <!-- Card 1 -->
+                <div class="testimonial-card" data-aos="zoom-in">
+                    <div class="user-info">
+                        <img src="https://i.pravatar.cc/60?u=jordan" alt="Jordan Lee">
+                        <div>
+                            <h4>Jordan Lee <i class="fas fa-check-circle verified"></i></h4>
+                            <span>@jordantalks</span>
+                        </div>
+                    </div>
+                    <p>Radiant made undercutting all of our competitors an absolute breeze. The AI suggestions are
+                        top-notch!</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="testimonial-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="user-info">
+                        <img src="https://i.pravatar.cc/60?u=avery" alt="Avery Johnson">
+                        <div>
+                            <h4>Avery Johnson <i class="fas fa-check-circle verified"></i></h4>
+                            <span>@averywrites</span>
+                        </div>
+                    </div>
+                    <p>Radiant made undercutting all of our competitors an absolute breeze. I landed my dream job in 2
+                        weeks!</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="testimonial-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="user-info">
+                        <img src="https://i.pravatar.cc/60?u=briar" alt="Briar Martin">
+                        <div>
+                            <h4>Briar Martin <i class="fas fa-check-circle verified"></i></h4>
+                            <span>@neilstellar</span>
+                        </div>
+                    </div>
+                    <p>Radiant made undercutting all of our competitors an absolute breeze. Best resume builder out
+                        there.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-box" data-aos="flip-up">
+                <h3>Build a Professional Resume & Portfolio That Helps You Stand Out and Get Hired</h3>
+                <div class="cta-btns">
+                    <a href="choose.html" class="btn btn-primary btn-lg">Get Started <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-content auth-modal">
+            <button class="close-modal" onclick="closeLogin()">&times;</button>
+            <div class="auth-header">
+                <div class="logo" style="margin-bottom: 1rem;">
+                    Smart<span>Profile</span>Builder<span>.</span>
+                </div>
+                <h2>Welcome Back</h2>
+                <p>Login to access your resumes and portfolios</p>
+            </div>
+
+            <div class="auth-options">
+                <button class="google-btn" onclick="simulateGoogleLogin()">
+                    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google">
+                    Continue with Google
+                </button>
+            </div>
+
+            <div class="auth-divider">
+                <span>or login with email</span>
+            </div>
+
+            <form class="auth-form" onsubmit="event.preventDefault()">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary btn-full">Sign In</button>
+            </form>
+
+            <p class="auth-footer">Don't have an account? <a href="choose.html">Get Started</a></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
