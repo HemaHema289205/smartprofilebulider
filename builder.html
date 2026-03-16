@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder | SmartProfileBuilder</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="builder.css">
+    <!-- html2pdf.js for client-side PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- SortableJS for Drag and Drop Layouts -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+</head>
+
+<body class="builder-body">
+
+    <nav id="navbar" class="builder-nav">
+        <div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: #111827; font-size: 1.25rem; font-weight: bold;">Smart<span style="color:#6366f1">Profile</span>Builder<span style="color:#6366f1">.</span></a>
+            </div>
+            <div class="builder-title">
+                <h1 style="color: #6366f1; font-size: 1.1rem; margin:0;">AI RESUME BUILDER</h1>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn-primary" id="save-btn" style="background:#6366f1; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;"><i class="fas fa-magic"></i> Download PDF</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="builder-container-fluid">
+        <div class="builder-layout">
+            
+            <!-- Left Sidebar: Forms -->
+            <aside class="left-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-edit"></i> Content</h3>
+                </div>
+                <div class="editor-area">
+                    <form id="resume-form">
+                        
+                        <!-- Personal Info -->
+                        <details class="form-section shadow-card" open>
+                            <summary class="section-header-builder">
+                                <h2><i class="fas fa-user"></i> Basics</h2>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </summary>
+                            <div class="grid-form p-inner">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" placeholder="John Doe" id="full-name" value="John Doe">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Headline</label>
+                                    <input type="text" placeholder="Software Engineer" id="headline" value="Software Engineer">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" placeholder="john@example.com" id="email" value="john@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" placeholder="+1 (555) 000-0000" id="phone" value="+1 234 567 890">
+                                </div>
+                                <div class="form-group">
+                                    <label>Location</label>
+                                    <input type="text" placeholder="New York, NY" id="location" value="New York, USA">
+                                </div>
+                                <div class="form-group">
+                                    <label>GitHubLink</label>
+                                    <input type="url" placeholder="https://github.com/..." id="github">
+                                </div>
+                                <div class="form-group">
+                                    <label>LinkedIn</label>
+                                    <input type="url" placeholder="linkedin.com/in/..." id="linkedin">
+                                </div>
+                                <div class="form-group">
+                                    <label>Portfolio Website</label>
+                                    <input type="url" placeholder="https://portfolio.com" id="portfolio">
+                                </div>
+
+                            </div>
+                        </details>
+
+                        <!-- Summary (New) -->
+                        <details class="form-section shadow-card">
+                            <summary class="section-header-builder">
+                                <h2><i class="fas fa-align-left"></i> Summary</h2>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </summary>
+                            <div class="grid-form p-inner">
+                                <div class="form-group full-width">
+                                    <textarea id="summary" placeholder="A passionate software engineer..."></textarea>
+                                </div>
+                            </div>
+                        </details>
+
+                        <div id="dynamic-sections">
+                            <!-- Work Experience -->
+                            <details class="form-section shadow-card" id="experience-sec" data-section="experience" open>
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-briefcase"></i> Experience</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'experience')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="experience-items">
+                                </div>
+                            </details>
+
+                            <!-- Education Section -->
+                            <details class="form-section shadow-card" id="education-sec" data-section="education">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'education')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="education-items">
+                                </div>
+                            </details>
+
+                            <!-- Skills Section -->
+                            <details class="form-section shadow-card" id="skills-sec" data-section="skills" open>
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-tools"></i> Skills</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'skills')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="skills-items">
+                                </div>
+                            </details>
+
+                            <!-- Projects -->
+                            <details class="form-section shadow-card" id="projects-sec" data-section="projects">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-project-diagram"></i> Projects</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'projects')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="projects-items">
+                                </div>
+                            </details>
+
+                            <!-- Internships -->
+                            <details class="form-section shadow-card" id="internships-sec" data-section="internships">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-user-tie"></i> Internships</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'internships')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="internships-items">
+                                </div>
+                            </details>
+
+                            <!-- Certifications -->
+                            <details class="form-section shadow-card" id="certifications-sec" data-section="certifications">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-certificate"></i> Certifications</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'certifications')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="certifications-items">
+                                </div>
+                            </details>
+
+                            <!-- Achievements -->
+                            <details class="form-section shadow-card" id="achievements-sec" data-section="achievements">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-trophy"></i> Achievements</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'achievements')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="achievements-items">
+                                </div>
+                            </details>
+
+                            <!-- Awards / Honors -->
+                            <details class="form-section shadow-card" id="awards-sec" data-section="awards">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-medal"></i> Awards / Honors</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'awards')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="awards-items">
+                                </div>
+                            </details>
+
+                            <!-- Publications -->
+                            <details class="form-section shadow-card" id="publications-sec" data-section="publications">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-book"></i> Publications / Research</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'publications')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="publications-items">
+                                </div>
+                            </details>
+
+                            <!-- Languages -->
+                            <details class="form-section shadow-card" id="languages-sec" data-section="languages">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-language"></i> Languages</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'languages')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="languages-items">
+                                </div>
+                            </details>
+
+                            <!-- Interests / Hobbies -->
+                            <details class="form-section shadow-card" id="interests-sec" data-section="interests">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-heart"></i> Interests / Hobbies</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'interests')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="interests-items">
+                                </div>
+                            </details>
+
+                            <!-- References -->
+                            <details class="form-section shadow-card" id="references-sec" data-section="references">
+                                <summary class="section-header-builder">
+                                    <h2><i class="fas fa-users"></i> References</h2>
+                                    <div class="actions">
+                                        <button type="button" class="btn-add" onclick="addItem(event, 'references')"><i class="fas fa-plus"></i></button>
+                                        <i class="fas fa-chevron-down toggle-icon"></i>
+                                    </div>
+                                </summary>
+                                <div class="items-container p-inner" id="references-items">
+                                </div>
+                            </details>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- Center: Live Preview -->
+            <div class="center-panel">
+                <div class="preview-wrapper">
+                    <div id="resume-preview" class="resume-paper template-modern underline-links">
+                        <!-- Content injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar: Templates & Settings -->
+            <aside class="right-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-palette"></i> Design</h3>
+                </div>
+                <div class="settings-area">
+                    <div class="settings-section">
+                        <h4>Template</h4>
+                        <div class="template-grid">
+                            <div class="template-option active" data-template="template-azurill">
+                                <div class="template-preview tmpl-azurill"></div>
+                                <span>Azurill</span>
+                            </div>
+                            <div class="template-option" data-template="template-bronzor">
+                                <div class="template-preview tmpl-bronzor"></div>
+                                <span>Bronzor</span>
+                            </div>
+                            <div class="template-option" data-template="template-chikorita">
+                                <div class="template-preview tmpl-chikorita"></div>
+                                <span>Chikorita</span>
+                            </div>
+                            <div class="template-option" data-template="template-ditto">
+                                <div class="template-preview tmpl-ditto"></div>
+                                <span>Ditto</span>
+                            </div>
+                            <div class="template-option" data-template="template-gengar">
+                                <div class="template-preview tmpl-gengar"></div>
+                                <span>Gengar</span>
+                            </div>
+                            <div class="template-option" data-template="template-glalie">
+                                <div class="template-preview tmpl-glalie"></div>
+                                <span>Glalie</span>
+                            </div>
+                            <div class="template-option" data-template="template-kakuna">
+                                <div class="template-preview tmpl-kakuna"></div>
+                                <span>Kakuna</span>
+                            </div>
+                            <div class="template-option" data-template="template-leafish">
+                                <div class="template-preview tmpl-leafish"></div>
+                                <span>Leafish</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layout Builder Builder Section -->
+                    <div class="settings-section mt-4" style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="margin: 0; font-size: 1.1em;">Layout</h4>
+                            <button id="reset-layout" title="Reset layout" style="background:none;border:none;color:#64748b;cursor:pointer;"><i class="fas fa-undo"></i></button>
+                        </div>
+                        <h5 style="font-size: 0.85em; margin-bottom: 15px; color: #475569; font-weight: 600;">Page 1</h5>
+                        <div style="display: flex; gap: 15px;">
+                            <div style="flex: 1;">
+                                <h6 style="font-size: 0.8em; text-align: center; margin-bottom: 10px; color: #475569; font-weight: 700;">Main</h6>
+                                <div id="layout-main-list" class="sortable-list" style="min-height: 150px; display: flex; flex-direction: column; gap: 8px; background: #fff; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1;">
+                                    <div class="sortable-item" data-id="experience" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Experience</div>
+                                    <div class="sortable-item" data-id="internships" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Internships</div>
+                                    <div class="sortable-item" data-id="education" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Education</div>
+                                    <div class="sortable-item" data-id="projects" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Projects</div>
+                                    <div class="sortable-item" data-id="certifications" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Certifications</div>
+                                    <div class="sortable-item" data-id="achievements" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Achievements</div>
+                                    <div class="sortable-item" data-id="awards" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Awards</div>
+                                    <div class="sortable-item" data-id="publications" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Publications</div>
+                                    <div class="sortable-item" data-id="languages" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Languages</div>
+                                    <div class="sortable-item" data-id="interests" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Interests</div>
+                                    <div class="sortable-item" data-id="references" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> References</div>
+                                </div>
+                            </div>
+                            <div style="flex: 1;">
+                                <h6 style="font-size: 0.8em; text-align: center; margin-bottom: 10px; color: #475569; font-weight: 700;">Sidebar</h6>
+                                <div id="layout-sidebar-list" class="sortable-list" style="min-height: 150px; display: flex; flex-direction: column; gap: 8px; background: #fff; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1;">
+                                    <div class="sortable-item" data-id="contact" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Contact</div>
+                                    <div class="sortable-item" data-id="skills" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Skills</div>
+                                    <div class="sortable-item" data-id="summary" style="background: #1a202c; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 0.8em; font-weight: 500; cursor: grab;"><i class="fas fa-grip-vertical" style="color: #64748b; margin-right: 6px;"></i> Summary</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section mt-4">
+                        <h4>Typography</h4>
+                        <div class="font-group mt-3">
+                            <label>Font Family</label>
+                            <select id="font-family" class="form-select">
+                                <option value="'Outfit', sans-serif">Outfit</option>
+                                <option value="'IBM Plex Serif', serif">IBM Plex Serif</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                                <option value="'Arial', sans-serif">Arial</option>
+                                <option value="'Roboto', sans-serif">Roboto</option>
+                                <option value="'Lato', sans-serif">Lato</option>
+                            </select>
+                        </div>
+
+
+                        <div class="font-group mt-3">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label>Font Size</label>
+                                <span id="font-size-val" style="font-weight: bold;">14</span>
+                            </div>
+                            <input type="range" id="font-size" min="10" max="24" value="14" class="w-100">
+                        </div>
+
+                        <div class="font-group mt-3">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label>Line Height</label>
+                                <span id="line-height-val" style="font-weight: bold;">1.5</span>
+                            </div>
+                            <input type="range" id="line-height" min="1" max="2.5" step="0.1" value="1.5" class="w-100">
+                        </div>
+                    </div>
+
+                    <div class="settings-section mt-4 border-none display-options-container">
+                        <h4 style="color: #0f4a7b; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 25px; font-weight: 700;">Options</h4>
+                        <div class="display-options-item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <label for="hide-icons" style="font-size: 1.05rem; color: #0f172a; cursor: pointer; font-weight: 500; margin: 0;">Hide Icons</label>
+                            <input type="checkbox" id="hide-icons" class="red-checkbox">
+                        </div>
+                        <div class="display-options-item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <label for="theme-color-picker" style="font-size: 1.05rem; color: #0f172a; cursor: pointer; font-weight: 500; margin: 0;">Theme Color</label>
+                            <input type="color" id="theme-color-picker" value="#6366f1" style="width: 35px; height: 35px; border: none; padding: 0; cursor: pointer; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="settings-section mt-4">
+                        <h4>Page</h4>
+                        <div class="font-group mt-3">
+                            <label>Format</label>
+                            <select id="page-format" class="form-select">
+                                <option value="a4">A4</option>
+                                <option value="letter">Letter</option>
+                                <option value="legal">Legal</option>
+                            </select>
+                        </div>
+
+                        <div class="font-group mt-3">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label>Margin</label>
+                                <span id="margin-val" style="font-weight: bold;">15</span>
+                            </div>
+                            <input type="range" id="page-margin" min="0" max="50" value="15" class="w-100">
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </aside>
+            
+        </div>
+    </main>
+
+    <script src="builder.js"></script>
+</body>
+
+</html>
