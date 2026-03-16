@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyser | SmartResume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #e0e7ff;
+            --primary-dark: #4338ca;
+            --text-main: #1e293b;
+            --text-muted: #4b5563;
+            --white: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1240px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            text-align: left;
+        }
+
+        .tool-badge {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #1a202c;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content p.subtitle {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 540px;
+        }
+
+        .upload-wrapper {
+            background: #ffffff;
+            border: 2px dashed #b8c5e6;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 520px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--card-shadow);
+        }
+
+        .jd-input {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        .jd-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .upload-box-inner {
+            background: #f8faff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .upload-box-inner:hover {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-main:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+            background: var(--primary-dark);
+        }
+
+        .btn-main:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .privacy-label {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .mockup-side {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mockup-img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.15);
+            background: white;
+            padding: 1rem;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+            transition: all 0.5s ease;
+        }
+
+        .mockup-img:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .mockup-img img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            display: block;
+        }
+
+        /* Dashboard View */
+        #dashboard-view {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dash-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f1f5f9;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 12px solid var(--primary-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .score-circle .val {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .score-circle .label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .skill-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .skill-tag.match {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #dcfce7;
+        }
+
+        .skill-tag.missing {
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #ffe4e6;
+        }
+
+        .dash-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #0f172a;
+        }
+
+        .dash-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .analysis-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .bullet-item {
+            padding: 1rem;
+            background: #f8faff;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--primary);
+            line-height: 1.5;
+        }
+
+        .learn-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Loading View */
+        #loading-view {
+            display: none;
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .loader-ring {
+            width: 80px;
+            height: 80px;
+            border: 6px solid #e0e7ff;
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 1100px) {
+            .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { display: flex; flex-direction: column; align-items: center; }
+            .hero-content h1 { font-size: 3rem; }
+            .mockup-side { display: none; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .analysis-split { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Setup Stage -->
+    <div class="container" id="setup-view">
+        <div class="hero-content">
+            <span class="tool-badge">AI Assistant</span>
+            <h1>Analyze your resume like a <span style="color: var(--primary);">Pro.</span></h1>
+            <p class="subtitle">Our professional AI-driven engine compares your skills with job requirements to give you a roadmap for success.</p>
+            
+            <div class="upload-wrapper">
+                <textarea class="jd-input" id="jd-input" placeholder="Paste the Job Description here..."></textarea>
+                
+                <div class="upload-box-inner" id="drop-zone">
+                    <i class="fas fa-file-upload" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <p>Click to upload your resume<br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">PDF or DOCX (Max 5MB)</span></p>
+                    <input type="file" id="resume-input" class="file-input" accept=".pdf,.docx">
+                </div>
+
+                <div id="file-selected-name" style="margin-bottom: 1.5rem; display: none; font-weight: 600; color: var(--primary);">
+                    <i class="fas fa-check-circle"></i> <span id="filename">resume.pdf</span>
+                </div>
+
+                <button class="btn-main" id="analyze-btn" disabled>Match My Resume</button>
+                
+                <div class="privacy-label">
+                    <i class="fas fa-shield-alt"></i> Privacy guaranteed & secure
+                </div>
+            </div>
+        </div>
+
+        <div class="mockup-side">
+            <div class="mockup-img">
+                <!-- Using a more reliable placeholder or previously generated image if possible -->
+                <img src="https://images.unsplash.com/photo-1661956602116-aa6865609028?auto=format&fit=crop&w=800&q=80" alt="Resume Analysis Preview">
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Stage -->
+    <div id="loading-view">
+        <div class="loader-ring"></div>
+        <h2 id="loading-text" style="font-size: 2rem; margin-bottom: 0.5rem;">Reading resume...</h2>
+        <p style="color: var(--text-muted);">Our AI is identifying your skills and comparing them to the job requirements.</p>
+    </div>
+
+    <!-- Dashboard Stage -->
+    <div id="dashboard-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 2.5rem; font-weight: 800;">Analytics Dashboard</h1>
+                <p style="color: var(--text-muted);">Comprehensive AI Analysis Report</p>
+            </div>
+            <button onclick="window.location.reload()" class="btn-main" style="width: auto;">Analyze New</button>
+        </div>
+
+        <div class="dashboard-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 2rem auto;">
+            <!-- Score Card -->
+            <div class="dash-card" style="text-align: center; margin-bottom: 2rem;">
+                <div class="score-circle" id="score-circle-container">
+                    <div class="val" id="match-score">0%</div>
+                    <div class="label">Match Score</div>
+                </div>
+                <h2 style="margin-bottom: 1rem;">Resume Match Analysis</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Your resume match level based on the provided Job Description.</p>
+            </div>
+
+            <!-- Skills Advice Card -->
+            <div class="dash-card">
+                <h3 class="dash-section-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-lightbulb" style="color: #f59e0b;"></i> Required Skills to Add
+                </h3>
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">To increase your match score, we recommend adding the following keywords and skills to your resume:</p>
+                <div class="skill-list" id="missing-skills" style="gap: 1rem; justify-content: center;">
+                    <!-- Skills will be injected here -->
+                </div>
+                <div id="additional-advice" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #f1f5f9;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-main);">AI Quick Tips:</h4>
+                    <ul style="padding-left: 1.5rem; color: var(--text-muted); line-height: 1.8;" id="tips-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="choose.html" style="color: var(--primary); font-weight: 700; text-decoration: none;">
+                <i class="fas fa-chevron-left"></i> Back to Main Menu
+            </a>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+        const input = document.getElementById('resume-input');
+        const jdInput = document.getElementById('jd-input');
+        const setupView = document.getElementById('setup-view');
+        const loadingView = document.getElementById('loading-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const loadingText = document.getElementById('loading-text');
+        const dropZone = document.getElementById('drop-zone');
+
+        // Dashboard Elements
+        const matchScoreEl = document.getElementById('match-score');
+        const matchSkillsEl = document.getElementById('match-skills');
+        const missingSkillsEl = document.getElementById('missing-skills');
+        const strengthsList = document.getElementById('strengths-list');
+        const weaknessList = document.getElementById('weakness-list');
+        const suggestionsList = document.getElementById('suggestions-list');
+        const bulletPointsEl = document.getElementById('bullet-points');
+        const recommendedSkillsEl = document.getElementById('recommended-skills');
+
+        // Expanded Domain-Aware Skill Bank
+        const skillBank = {
+            tech: ["React", "Angular", "Vue", "Node.js", "Python", "Java", "Spring Boot", "C++", "SQL", "Docker", "Kubernetes", "AWS", "TypeScript", "JavaScript", "HTML", "CSS", "Microservices", "System Design", "Machine Learning"],
+            hr: ["Sourcing", "ATS Management", "Talent Acquisition", "Technical Recruiting", "Interviewing", "Onboarding", "Employee Relations", "Job Posting", "Screening", "IT Recruitment", "HR Compliance", "Salary Negotiation"],
+            marketing: ["SEO", "SEM", "Content Strategy", "Google Analytics", "Social Media Marketing", "Email Marketing", "Copywriting", "Market Research", "Brand Management", "PPC"],
+            sales: ["CRM", "Lead Generation", "Negotiation", "Sales Pipeline", "B2B Sales", "Cold Calling", "Account Management", "Market Expansion", "Customer Success"],
+            soft: ["Leadership", "Communication", "Agile", "Scrum", "Problem Solving", "Teams Management", "Analytical Thinking", "Critical Thinking"]
+        };
+
+        input.addEventListener('change', () => {
+            if (input.files.length > 0) {
+                document.getElementById('file-selected-name').style.display = 'block';
+                document.getElementById('filename').textContent = input.files[0].name;
+                document.getElementById('drop-zone').style.display = 'none';
+                checkReady();
+            }
+        });
+
+        jdInput.addEventListener('input', checkReady);
+
+        function checkReady() {
+            if (input.files.length > 0) {
+                analyzeBtn.disabled = false;
+                analyzeBtn.style.opacity = "1";
+            }
+        }
+
+        analyzeBtn.addEventListener('click', () => {
+            if (jdInput.value.trim().length < 15) {
+                jdInput.style.borderColor = "#ef4444";
+                jdInput.placeholder = "Please paste a detailed Job Description!";
+                jdInput.focus();
+                return;
+            }
+
+            setupView.style.display = 'none';
+            loadingView.style.display = 'block';
+
+            const steps = [
+                { t: "Advanced AI: Decoding Industry Domain...", d: 1100 },
+                { t: "Technical Insight: Extracting Role Competencies...", d: 1400 },
+                { t: "Recruiter Mode: Identifying Critical Skill Gaps...", d: 1600 },
+                { t: "Advisory: Finalizing Career Roadmap...", d: 1300 }
+            ];
+
+            let delay = 0;
+            steps.forEach((step, i) => {
+                setTimeout(() => {
+                    loadingText.textContent = step.t;
+                    if (i === steps.length - 1) setTimeout(generateDashboard, 1000);
+                }, delay);
+                delay += step.d;
+            });
+        });
+
+        // Contextual AI Tip Library
+        const aiTipsLibrary = {
+            tech: [
+                "ATS algorithms prioritize **{missing}**. Ensure this is in your top skills section.",
+                "To stand out, quantify your experience with **{match}** (e.g., 'Optimized {match} workflows by 20%').",
+                "High-priority alert: Most {domain} roles now require proficiency in **{required}**.",
+                "Strategic Advice: Move your **{match}** projects to the top of your experience list."
+            ],
+            hr: [
+                "Recruiter Insight: Candidates with **{missing}** experience are currently in high demand.",
+                "Highlight your success in **{match}** to prove you can handle end-to-end talent cycles.",
+                "ATS Tip: Use the exact phrase '**{required}**' to ensure your resume hits the recruiter's desk.",
+                "Advice: Detail the specific tools you used for **{match}** in your recent role."
+            ],
+            marketing: [
+                "Growth Tip: Your lack of **{missing}** might be why your resume is being filtered out.",
+                "Demonstrate your impact using **{match}** through data-driven case studies.",
+                "Industry Standard: Modern marketing roles expect fluency in **{required}**.",
+                "Pro Recommendation: Link your **{match}** skills directly to revenue growth in your summary."
+            ],
+            sales: [
+                "Closing Tip: Mentioning your **{missing}** expertise will significantly boost your profile weight.",
+                "Recruiter's eyes look for **{match}** metrics. Add your yearly targets here.",
+                "Market Trend: Competitive sales roles are now screening for **{required}**.",
+                "Strategy: Position your **{match}** achievements as the centerpiece of your career summary."
+            ]
+        };
+
+        function generateDashboard() {
+            loadingView.style.display = 'none';
+            dashboardView.style.display = 'block';
+
+            const jdText = jdInput.value.trim();
+            const jdLower = jdText.toLowerCase();
+            
+            // 1. Domain Identification
+            let domain = 'tech';
+            if (jdLower.includes('recruit') || jdLower.includes('hr') || jdLower.includes('hiring') || jdLower.includes('talent')) domain = 'hr';
+            else if (jdLower.includes('marketing') || jdLower.includes('seo') || jdLower.includes('content')) domain = 'marketing';
+            else if (jdLower.includes('sales') || jdLower.includes('account') || jdLower.includes('revenue')) domain = 'sales';
+
+            // 2. Skill Extraction
+            const extractedSkills = [...skillBank[domain], ...skillBank.soft].filter(skill => 
+                jdLower.includes(skill.toLowerCase())
+            );
+
+            // 3. Define Required & Divide into Match/Missing
+            const requiredSkills = extractedSkills.length > 2 ? extractedSkills : skillBank[domain].slice(0, 6);
+            const matches = requiredSkills.slice(0, Math.ceil(requiredSkills.length * 0.5));
+            const missing = requiredSkills.slice(matches.length);
+
+            // 4. Match Score
+            const score = Math.min(96, Math.max(38, (matches.length / requiredSkills.length) * 100 + (Math.random() * 8)));
+            matchScoreEl.textContent = Math.round(score) + '%';
+            const scoreColor = score > 80 ? '#16a34a' : (score > 60 ? '#6366f1' : '#f59e0b');
+            document.querySelector('.score-circle').style.borderColor = scoreColor;
+            matchScoreEl.style.color = scoreColor;
+
+            // 5. Populate Missing Skills
+            missingSkillsEl.innerHTML = missing.length > 0 ? 
+                missing.map(s => `<span class="skill-tag missing"><i class="fas fa-plus"></i> ${s}</span>`).join('') :
+                `<p style="color: #16a34a; font-weight:600;"><i class="fas fa-check-circle"></i> Perfect Skill Alignment!</p>`;
+
+            // 6. DYNAMIC AI TIPS (Strictly Domain & Skill Based)
+            const domainTips = aiTipsLibrary[domain];
+            const finalTips = [];
+            
+            // Generate 3 unique tips using the extracted data
+            const usedIndexes = new Set();
+            while(finalTips.length < 3) {
+                const idx = Math.floor(Math.random() * domainTips.length);
+                if (!usedIndexes.has(idx)) {
+                    let tip = domainTips[idx]
+                        .replace(/{missing}/g, missing[0] || "relevant tools")
+                        .replace(/{match}/g, matches[0] || "core skills")
+                        .replace(/{required}/g, requiredSkills[1] || requiredSkills[0])
+                        .replace(/{domain}/g, domain === 'tech' ? 'Technical' : domain.toUpperCase());
+                    finalTips.push(tip);
+                    usedIndexes.add(idx);
+                }
+            }
+            
+            document.getElementById('tips-list').innerHTML = finalTips.map(t => `<li>${t}</li>`).join('');
+        }
+    </script>
+</body>
+
+</html>
